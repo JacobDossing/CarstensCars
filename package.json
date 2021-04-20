@@ -1,0 +1,20 @@
+{
+  "name": "carstens_cars",
+  "version": "1.0.0",
+  "description": "Carsten's Bil Butik",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [
+    "RESTful_api",
+    "node.js",
+    "car"
+  ],
+  "author": "gruppe 5",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
