@@ -15,8 +15,10 @@
   "author": "gruppe 5",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "mongoose": "^5.12.5"
+    "mongoose": "^5.12.5",
+    "multer": "^1.4.2"
   },
   "devDependencies": {
     "morgan": "^1.10.0",
