@@ -1,12 +1,35 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads/');
+    },
+    filename: function(req, file, cb) {
+        cb(null, new Date().toISOString() + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg')
+        cb(null, true);
+    else
+        cb(null, false);
+}
+
+const upload = multer({
+    storage: storage, limits: {
+        fileSize: 1024 * 1024 * 5
+    }
+});
 
 const Car = require('../models/car');
 
 router.get('/', (req, res, next) => {
     Car.find()
-        .select('brand model price')
+        .select('brand model price carImage')
         .exec()
         .then(docs => {
             const response = {
@@ -22,12 +45,14 @@ router.get('/', (req, res, next) => {
         });
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', upload.single('carImage'),(req, res, next) => {
+    console.log(req.file);
     const car = new Car({
         _id: new mongoose.Types.ObjectId(),
         brand: req.body.brand,
         model: req.body.model,
-        price: req.body.price
+        price: req.body.price,
+        carImage: req.file.path
     });
     car.save()
         .then(result => {
@@ -46,7 +71,7 @@ router.post('/', (req, res, next) => {
 router.get('/:carId', (req, res, next) => {
     const id = req.params.carId;
     Car.findById(id)
-        .select('brand model price')
+        .select('brand model price carImage')
         .exec()
         .then(doc => {
             if (doc) {
