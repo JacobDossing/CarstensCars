@@ -16,7 +16,7 @@ mongoose.connect('mongodb://localhost/carstens-cars', { useNewUrlParser: true })
 mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));
-app.use('/uploads', express.static('uploads'));
+app.use('uploads', express.static('uploads'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
